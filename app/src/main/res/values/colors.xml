@@ -15,5 +15,6 @@
     <color name="actionBarStatus">#f2f3f5</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="textColorDark">#12202E</color>
+    <color name="textColorDesc">#464646</color>
 
 </resources>

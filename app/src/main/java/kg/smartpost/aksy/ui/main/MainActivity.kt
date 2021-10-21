@@ -1,27 +1,35 @@
-package kg.smartpost.aksy
+package kg.smartpost.aksy.ui.main
 
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import kg.smartpost.aksy.R
+import kg.smartpost.aksy.data.network.category.CategoryModel
 import kg.smartpost.aksy.databinding.ActivityMainBinding
 import kg.smartpost.aksy.ui.gallery.GalleryFragment
-import kg.smartpost.aksy.ui.home.HomeFragment
+import kg.smartpost.aksy.ui.announcement.AnnouncementFragment
 import kg.smartpost.aksy.ui.slideshow.SlideshowFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var adapter: CategoryAdapter
+
+    private var categories = mutableListOf(
+        CategoryModel(R.drawable.ic_all_category, "Жалпы"),
+        CategoryModel(R.drawable.ic_property_category, "Кыймылсыз мүлк"),
+        CategoryModel(R.drawable.ic_car_category, "Унаалар"),
+        CategoryModel(R.drawable.ic_animals_category, "Мал-чарба"),
+        CategoryModel(R.drawable.ic_electronics, "Электроника"),
+        CategoryModel(R.drawable.ic_sell, "Алуу/Сатуу"),
+        CategoryModel(R.drawable.ic_route, "Каттам"),
+        CategoryModel(R.drawable.ic_work, "Жумуш"),
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +40,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val homeFragment = HomeFragment()
+        adapter = CategoryAdapter(categories, this)
+        binding.appBarMain.contentMain.categories.adapter = adapter
+        adapter.notifyDataSetChanged()
+
+        val homeFragment = AnnouncementFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment_content_main, homeFragment).commit()
 
         binding.btnAnnouncement.setOnClickListener {
-            val homeFragment = HomeFragment()
+            val homeFragment = AnnouncementFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment_content_main, homeFragment).commit()
             Handler().postDelayed({
@@ -98,6 +110,16 @@ class MainActivity : AppCompatActivity() {
                 super.onBackPressed()
             }
         }
+    }
+
+    override fun onCategoryClick(position: Int, title: String) {
+        val bundle = Bundle()
+        bundle.putString("title", title)
+        val homeFragment = AnnouncementFragment()
+        homeFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment_content_main, homeFragment).commit()
+
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {

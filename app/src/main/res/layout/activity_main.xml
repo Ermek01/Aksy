@@ -126,7 +126,7 @@
                     android:id="@+id/img_chosen"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/ic_chosen"
+                    android:src="@drawable/ic_chosen_menu"
                     />
 
                 <ImageView
