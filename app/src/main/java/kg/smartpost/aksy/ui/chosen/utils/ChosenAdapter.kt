@@ -1,18 +1,15 @@
-package kg.smartpost.aksy.ui.announcement
+package kg.smartpost.aksy.ui.chosen.utils
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import de.hdodenhof.circleimageview.CircleImageView
 import kg.smartpost.aksy.R
-import kg.smartpost.aksy.data.network.category.CategoryModel
 
-class AnnouncementAdapter :RecyclerView.Adapter<AnnouncementAdapter.CategoryItemViewHolder>() {
+class ChosenAdapter :RecyclerView.Adapter<ChosenAdapter.CategoryItemViewHolder>() {
 
     private lateinit var context: Context
 
@@ -22,15 +19,15 @@ class AnnouncementAdapter :RecyclerView.Adapter<AnnouncementAdapter.CategoryItem
             itemView.findViewById<ImageView>(R.id.btn_chosen).setOnClickListener {
                 if (itemView.findViewById<ImageView>(R.id.btn_chosen).drawable.constantState == ContextCompat.getDrawable(
                         itemView.context,
-                        R.drawable.ic_chosen_disable
+                        R.drawable.ic_chosen_enable
                     )?.constantState
                 ) {
                     itemView.findViewById<ImageView>(R.id.btn_chosen)
-                        .setImageResource(R.drawable.ic_chosen_enable)
+                        .setImageResource(R.drawable.ic_chosen_disable)
 
                 } else {
                     itemView.findViewById<ImageView>(R.id.btn_chosen)
-                        .setImageResource(R.drawable.ic_chosen_disable)
+                        .setImageResource(R.drawable.ic_chosen_enable)
                 }
             }
 
@@ -40,7 +37,7 @@ class AnnouncementAdapter :RecyclerView.Adapter<AnnouncementAdapter.CategoryItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryItemViewHolder {
         context = parent.context
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_items, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_items_chosen, parent, false)
         return CategoryItemViewHolder(view)
     }
 

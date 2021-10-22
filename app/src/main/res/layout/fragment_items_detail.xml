@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.items.ItemsDetailFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/item_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="183dp"/>
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    app:tabBackground="@drawable/tab_selector_inset"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="22dp"
+                    app:tabGravity="center"
+                    android:layout_centerHorizontal="true"
+                    android:clipToPadding="false"
+                    android:layout_alignBottom="@id/viewPager"/>
+
+                <LinearLayout
+                    android:id="@+id/btn_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/viewPager"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp">
+
+                    <RelativeLayout
+                        android:id="@+id/btn_write"
+                        android:layout_width="110dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_button"
+                        android:layout_marginEnd="32dp">
+
+                        <ImageView
+                            android:id="@+id/img_write"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_write"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Жазуу"
+                            android:textColor="@color/white"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/nunito"
+                            android:textFontWeight="400"
+                            android:textSize="14sp"
+                            android:layout_toEndOf="@id/img_write"
+                            android:layout_marginStart="10dp"
+                            />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/btn_call"
+                        android:layout_width="110dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_button">
+
+                        <ImageView
+                            android:id="@+id/img_call"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_call"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Чалуу"
+                            android:textColor="@color/white"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/nunito"
+                            android:textFontWeight="400"
+                            android:textSize="14sp"
+                            android:layout_toEndOf="@id/img_call"
+                            android:layout_marginStart="10dp"
+                            />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txt_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_layout"
+                    android:text="Баасы:"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="22sp"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/textColorDesc"
+                    android:textFontWeight="400"
+                    android:layout_marginTop="34dp"/>
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_layout"
+                    android:text="450 000 сом"
+                    android:fontFamily="@font/nunito"
+                    android:textSize="22sp"
+                    android:layout_marginStart="10dp"
+                    android:textColor="@color/textColorDesc"
+                    android:textFontWeight="700"
+                    android:layout_alignEnd="@id/img_chosen"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toEndOf="@id/txt_price"
+                    android:layout_marginTop="34dp"/>
+
+                <ImageView
+                    android:id="@+id/img_chosen"
+                    android:layout_width="28dp"
+                    android:layout_height="28sp"
+                    android:src="@drawable/ic_chosen_disable"
+                    android:layout_below="@id/btn_layout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginEnd="16dp"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/btn_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_price"
+                    android:layout_marginTop="27dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="21dp"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Толук маалымат"
+                        android:fontFamily="@font/nunito"
+                        android:textSize="22sp"
+                        android:textColor="@color/textColorDesc"
+                        android:textFontWeight="700"
+                        />
+
+                    <ImageView
+                        android:id="@+id/more"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/ic_more_bottom"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txt_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate eu, ac pulvinar et ultrices. Et aliquam leo ultricies tortor tristique tortor tempus nulla. Egestas justo nisl sollicitudin mauris a rhoncus velit velit. Ipsum sit massa pellentesque mattis nulla nullam eu. Eget ut egestas scelerisque dolor, massa aliquam adipiscing nulla id. Et pellentesque dapibus et erat a proin commodo integer. Leo massa tellus morbi sed viverra diam diam. Nunc, viverra elementum erat commodo mauris, id ultrices eu est. Massa quam nec ac eros dolor orci massa arcu nunc. Lectus orci sed tempor eros mauris, sit tortor. Enim et nisl turpis aliquet tristique habitant adipiscing. Ut lacus viverra nec posuere in in enim tempus vulputate. Eleifend at urna sagittis scelerisque ut dictum a. Ornare "
+                    android:layout_below="@id/btn_more"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nunito"
+                    android:visibility="gone"
+                    android:textFontWeight="400"
+                    android:layout_marginBottom="20dp"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/btn_share"
+            android:layout_width="115dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_button"
+            android:layout_marginEnd="32dp"
+            android:layout_below="@id/item_card"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp">
+
+            <ImageView
+                android:id="@+id/img_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_share"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Бөлүшүү"
+                android:textColor="@color/white"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/nunito"
+                android:textFontWeight="400"
+                android:textSize="14sp"
+                android:layout_toEndOf="@id/img_share"
+                android:layout_marginStart="10dp"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_similar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Окшош жарыялар"
+            android:layout_below="@id/btn_share"
+            android:textColor="@color/black"
+            android:fontFamily="@font/nunito"
+            android:textFontWeight="800"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="25dp"
+            android:textSize="14sp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/announcement"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/row_items"
+            app:spanCount="2"
+            android:background="#FFFFFF"
+            android:layout_below="@id/txt_similar"
+            android:layout_marginTop="20dp"
+            android:paddingStart="14dp"
+            android:layout_marginBottom="10dp"/>
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>

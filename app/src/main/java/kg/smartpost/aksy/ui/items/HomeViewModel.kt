@@ -1,4 +1,4 @@
-package kg.smartpost.aksy.ui.announcement
+package kg.smartpost.aksy.ui.items
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

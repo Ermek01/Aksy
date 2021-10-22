@@ -1,17 +1,21 @@
-package kg.smartpost.aksy.ui.announcement
+package kg.smartpost.aksy.ui.items
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
-import kg.smartpost.aksy.databinding.FragmentHomeBinding
+import kg.smartpost.aksy.R
+import kg.smartpost.aksy.databinding.FragmentAnnouncementBinding
+import kg.smartpost.aksy.ui.chosen.ChosenFragment
+import kg.smartpost.aksy.ui.items.utils.AnnouncementAdapter
 
-class AnnouncementFragment : Fragment() {
+class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener {
 
     private lateinit var homeViewModel: HomeViewModel
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentAnnouncementBinding? = null
 
     private lateinit var adapter: AnnouncementAdapter
 
@@ -26,7 +30,7 @@ class AnnouncementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         title = arguments?.getString("title")
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentAnnouncementBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -34,7 +38,7 @@ class AnnouncementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AnnouncementAdapter()
+        adapter = AnnouncementAdapter(this)
         binding.announcement.adapter = adapter
         adapter.notifyDataSetChanged()
 
@@ -46,5 +50,14 @@ class AnnouncementFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onAnnouncementClick(position: Int) {
+        val fragment = ItemsDetailFragment()
+        fragmentManager?.commit {
+            replace(R.id.nav_host_fragment_content_main, fragment)
+            addToBackStack(null)
+            setReorderingAllowed(true)
+        }
     }
 }

@@ -2,6 +2,7 @@ package kg.smartpost.aksy.ui.main
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -10,9 +11,12 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kg.smartpost.aksy.R
 import kg.smartpost.aksy.data.network.category.CategoryModel
 
+
 class CategoryAdapter(private var items: MutableList<CategoryModel>, private val listener: CategoryClickListener) :RecyclerView.Adapter<CategoryAdapter.CategoryItemViewHolder>() {
 
     private lateinit var context: Context
+
+    private var row_index: Int = -1
 
     inner class CategoryItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(position: Int) {
@@ -23,8 +27,11 @@ class CategoryAdapter(private var items: MutableList<CategoryModel>, private val
             title.text = items[position].title
 
             itemView.setOnClickListener {
-                listener.onCategoryClick(position, items[position].title)
+                listener.onCategoryClick(position, items)
             }
+
+
+
         }
 
     }
@@ -44,7 +51,7 @@ class CategoryAdapter(private var items: MutableList<CategoryModel>, private val
     }
 
     interface CategoryClickListener {
-        fun onCategoryClick(position: Int, title: String)
+        fun onCategoryClick(position: Int, title: MutableList<CategoryModel>)
     }
 
 }

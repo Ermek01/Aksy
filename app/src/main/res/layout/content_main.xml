@@ -20,17 +20,49 @@
         android:textSize="14sp"
         />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories"
+    <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txt_app_name"
-        android:layout_marginTop="12dp"
-        android:orientation="horizontal"
-        android:paddingStart="10dp"
-        tools:listitem="@layout/row_categories"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:ignore="RtlSymmetry" />
+        android:layout_marginTop="22dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            tools:listitem="@layout/row_categories"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:ignore="RtlSymmetry"
+            android:visibility="visible"
+            />
+
+        <TextView
+            android:id="@+id/txt_chosen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Жаккандар"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/nunito"
+            android:textFontWeight="700"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back_outline_left"
+            android:visibility="gone"
+            android:layout_marginStart="10dp"/>
+
+    </RelativeLayout>
+
+
 
     <RelativeLayout
         android:id="@+id/nav_host_fragment_content_main"
@@ -39,7 +71,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/categories"
+        android:layout_below="@id/relative"
         android:paddingTop="12dp"
         />
 </RelativeLayout>

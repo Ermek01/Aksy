@@ -16,5 +16,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="textColorDark">#12202E</color>
     <color name="textColorDesc">#464646</color>
+    <color name="transparent">#00FFFFFF</color>
 
 </resources>
