@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
@@ -38,9 +39,16 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AnnouncementAdapter(this)
-        binding.announcement.adapter = adapter
-        adapter.notifyDataSetChanged()
+        if (arguments != null) {
+            Toast.makeText(requireContext(), title, Toast.LENGTH_SHORT).show()
+        }
+        else {
+            adapter = AnnouncementAdapter(this)
+            binding.announcement.adapter = adapter
+            adapter.notifyDataSetChanged()
+        }
+
+
 
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)

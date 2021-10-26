@@ -1,38 +1,49 @@
 package kg.smartpost.aksy.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.commit
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kg.smartpost.aksy.R
-import kg.smartpost.aksy.data.network.category.CategoryModel
+import kg.smartpost.aksy.data.network.category.model.CategoryModel
+import kg.smartpost.aksy.data.network.category.model.ModelSendKey
 import kg.smartpost.aksy.databinding.ActivityMainBinding
 import kg.smartpost.aksy.ui.items.ItemsFragment
 import kg.smartpost.aksy.ui.chosen.ChosenFragment
 import kg.smartpost.aksy.ui.gallery.GalleryFragment
 import kg.smartpost.aksy.ui.items.ItemsDetailFragment
+import kg.smartpost.aksy.ui.items.SearchActivity
+import kg.smartpost.aksy.ui.main.utils.CategoryAdapter
+import kg.smartpost.aksy.ui.main.utils.CategoryListener
+import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModel
+import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModelFactory
+import kg.smartpost.aksy.utils.SECRET_KEY
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener {
+class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener, KodeinAware, CategoryListener {
+
+    override val kodein: Kodein by closestKodein()
+
+    private lateinit var categoryViewModel: CategoryViewModel
+    private val categoryViewModelFactory: CategoryViewModelFactory by instance()
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
     private lateinit var adapter: CategoryAdapter
 
-    private var categories = mutableListOf(
-        CategoryModel(R.drawable.ic_all_category, "Жалпы"),
-        CategoryModel(R.drawable.ic_property_category, "Кыймылсыз мүлк"),
-        CategoryModel(R.drawable.ic_car_category, "Унаалар"),
-        CategoryModel(R.drawable.ic_animals_category, "Мал-чарба"),
-        CategoryModel(R.drawable.ic_electronics, "Электроника"),
-        CategoryModel(R.drawable.ic_sell, "Алуу/Сатуу"),
-        CategoryModel(R.drawable.ic_route, "Каттам"),
-        CategoryModel(R.drawable.ic_work, "Жумуш"),
-    )
+    private var categories = mutableListOf<CategoryModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +54,17 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener 
         setSupportActionBar(binding.appBarMain.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        adapter = CategoryAdapter(categories, this)
-        binding.appBarMain.contentMain.categories.adapter = adapter
-        adapter.notifyDataSetChanged()
+        categoryViewModel = ViewModelProvider(this, categoryViewModelFactory).get(CategoryViewModel::class.java)
 
+        categoryViewModel.setFloorListener(this)
+
+        categoryViewModel.getFloor(ModelSendKey(SECRET_KEY))
+
+
+        val bundle = Bundle()
+        bundle.putString("title", "all")
         val homeFragment = ItemsFragment()
+        homeFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment_content_main, homeFragment).commit()
 
@@ -62,6 +79,10 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener 
             Handler().postDelayed({
                 binding.drawerLayout.closeDrawer(GravityCompat.START)
             }, 200)
+        }
+
+        binding.appBarMain.btnSearch.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java))
         }
 
         binding.appBarMain.btnOpenDrawer.setOnClickListener {
@@ -150,7 +171,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener 
         }
     }
 
-    override fun onCategoryClick(position: Int, title: MutableList<CategoryModel>) {
+    override fun onCategoryClick(position: Int) {
         if (supportFragmentManager.backStackEntryCount > 0) {
 
             val f = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main)
@@ -160,13 +181,25 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener 
         }
         else {
             val bundle = Bundle()
-            bundle.putString("title", title[position].title)
+            bundle.putString("title", "title")
             val homeFragment = ItemsFragment()
             homeFragment.arguments = bundle
             supportFragmentManager.beginTransaction()
                 .replace(R.id.nav_host_fragment_content_main, homeFragment).commit()
         }
 
+    }
+
+    override fun getCategorySuccess(response: List<CategoryModel>) {
+        categories.clear()
+        categories.addAll(response)
+        adapter = CategoryAdapter(this)
+        binding.appBarMain.contentMain.categories.adapter = adapter
+        adapter.submitList(categories)
+    }
+
+    override fun getCategoryFailure(code: Int?) {
+        Toast.makeText(this, "$code", Toast.LENGTH_SHORT).show()
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {

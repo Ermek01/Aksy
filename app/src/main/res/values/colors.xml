@@ -17,5 +17,9 @@
     <color name="textColorDark">#12202E</color>
     <color name="textColorDesc">#464646</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="color_recycler_view">#EDEDED</color>
+    <color name="color_switch_unchecked">#cccccc</color>
+    <color name="color_switch_track_unchecked">#9d9d9d</color>
+    <color name="color_switch_track_checked">#80009788</color>
 
 </resources>

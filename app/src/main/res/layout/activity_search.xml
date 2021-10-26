@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.items.SearchActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:theme="@style/Theme.Aksy.AppBarOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/btn_close"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Издөө"
+                android:textColor="@color/white"
+                android:layout_toEndOf="@id/btn_close"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:fontFamily="@font/nunito"
+                android:textFontWeight="700"
+                android:layout_marginStart="13dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Тазалоо"
+                android:textColor="@color/white"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="25dp"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:fontFamily="@font/nunito"
+                android:textFontWeight="700"
+                android:layout_marginStart="13dp"/>
+
+        </RelativeLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_main">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#33009788"
+                    android:layout_marginTop="24dp">
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_search"
+                        app:tint="@color/colorPrimary"
+                        android:layout_marginStart="16dp"/>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/img"
+                        android:layout_marginStart="23dp"
+                        android:hint="Мен издеп жатам"
+                        android:textColorHint="@color/colorPrimary"
+                        android:textColor="@color/colorPrimary"
+                        android:maxLines="1"
+                        android:textSize="18sp"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:background="@android:color/transparent"
+                        />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Категория"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:textFontWeight="700"/>
+
+                <RelativeLayout
+                    android:id="@+id/btn_select_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#33009788"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Категорияны тандаңыз"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:textSize="17sp"
+                        android:layout_marginStart="65dp"/>
+
+                    <ImageView
+                        android:id="@+id/more"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="19dp"
+                        android:src="@drawable/ic_more_bottom"/>
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/select_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_recycler_view"
+                    android:paddingTop="15dp"
+                    android:paddingStart="65dp"
+                    android:paddingEnd="19dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_search"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Жайгашкан жери"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:textFontWeight="700"/>
+
+                <RelativeLayout
+                    android:id="@+id/btn_select_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#33009788"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Аймакты тандаңыз"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:textSize="17sp"
+                        android:layout_marginStart="65dp"/>
+
+                    <ImageView
+                        android:id="@+id/more_address"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="19dp"
+                        android:src="@drawable/ic_more_bottom"/>
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/select_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_recycler_view"
+                    android:paddingTop="15dp"
+                    android:paddingStart="65dp"
+                    android:paddingEnd="19dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_search"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Сорттоо"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:textFontWeight="700"/>
+
+                <RelativeLayout
+                    android:id="@+id/btn_select_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#33009788"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Жарыяларды сорттоо"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:textSize="17sp"
+                        android:layout_marginStart="65dp"/>
+
+                    <ImageView
+                        android:id="@+id/more_sort"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="19dp"
+                        android:src="@drawable/ic_more_bottom"/>
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/select_sort"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_recycler_view"
+                    android:paddingTop="15dp"
+                    android:paddingStart="65dp"
+                    android:paddingEnd="19dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_search"
+                    android:visibility="gone"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/switch_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#33009788"
+                    android:layout_marginTop="26dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/txt_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сүрөт менен"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:textSize="17sp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="65dp"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_by_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="19dp"
+                        android:layout_marginTop="12dp"
+                        app:useMaterialThemeColors="false"
+                        app:thumbTint="@color/selector_switch"
+                        app:trackTint="@color/selector_switch_track"/>
+
+                    <TextView
+                        android:id="@+id/txt_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Видео менен"
+                        android:layout_below="@id/txt_photo"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:layout_marginTop="23dp"
+                        android:textSize="17sp"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginStart="65dp"/>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switch_by_video"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="19dp"
+                        android:layout_below="@id/switch_by_photo"
+                        android:layout_marginTop="23dp"
+                        app:useMaterialThemeColors="false"
+                        app:thumbTint="@color/selector_switch"
+                        app:trackTint="@color/selector_switch_track"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Валюта"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/nunito"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:textFontWeight="700"/>
+
+                <RelativeLayout
+                    android:id="@+id/btn_select_curreny"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="#33009788"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Сом"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/poppins"
+                        android:textFontWeight="500"
+                        android:textSize="17sp"
+                        android:layout_marginStart="65dp"/>
+
+                    <ImageView
+                        android:id="@+id/more_currency"
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="19dp"
+                        android:src="@drawable/ic_more_bottom"/>
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/select_currency"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_recycler_view"
+                    android:paddingTop="15dp"
+                    android:paddingStart="65dp"
+                    android:paddingEnd="19dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_search"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Жыйынтыктарын көрсөтүү"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:fontFamily="@font/nunito"
+                android:textFontWeight="700"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(3650)"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/nunito"
+                android:textFontWeight="700"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
