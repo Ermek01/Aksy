@@ -1,8 +1,10 @@
 package kg.smartpost.aksy.data.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import kg.smartpost.aksy.data.network.category.model.CategoryModel
+import kg.smartpost.aksy.data.network.category.model.ModelCategory
+import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.category.model.ModelSendKey
+import kg.smartpost.aksy.data.network.items.model.ModelItems
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,13 +12,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.*
+import java.util.ArrayList
 
 interface ApiService {
 
+    @FormUrlEncoded
     @POST("api/category/list")
     suspend fun getCategories(
-        @Body modelSendKey: ModelSendKey
-    ): List<CategoryModel>
+        @Field ("secret_key") secret_key: String,
+    ): ModelCategory
+
+    @FormUrlEncoded
+    @POST("api/blog/list")
+    suspend fun getItems(
+        @Field ("secret_key") secret_key: String,
+    ): ModelItems
 
     companion object {
 

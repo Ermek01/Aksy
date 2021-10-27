@@ -10,10 +10,10 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kg.smartpost.aksy.R
-import kg.smartpost.aksy.data.network.category.model.CategoryModel
+import kg.smartpost.aksy.data.network.category.model.ModelCategory
+import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.category.model.ModelSendKey
 import kg.smartpost.aksy.databinding.ActivityMainBinding
 import kg.smartpost.aksy.ui.items.ItemsFragment
@@ -30,6 +30,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener, KodeinAware, CategoryListener {
 
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener,
 
     private lateinit var adapter: CategoryAdapter
 
-    private var categories = mutableListOf<CategoryModel>()
+    private var categories = mutableListOf<ModelCategoryItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener,
 
         categoryViewModel.setFloorListener(this)
 
-        categoryViewModel.getFloor(ModelSendKey(SECRET_KEY))
+        categoryViewModel.getCategories(SECRET_KEY)
 
 
         val bundle = Bundle()
@@ -190,7 +191,7 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener,
 
     }
 
-    override fun getCategorySuccess(response: List<CategoryModel>) {
+    override fun getCategorySuccess(response: ModelCategory) {
         categories.clear()
         categories.addAll(response)
         adapter = CategoryAdapter(this)
@@ -201,15 +202,4 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener,
     override fun getCategoryFailure(code: Int?) {
         Toast.makeText(this, "$code", Toast.LENGTH_SHORT).show()
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.main, menu)
-//        return true
-//    }
-//
-//    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-//        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-//    }
 }

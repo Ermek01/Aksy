@@ -19,8 +19,10 @@
             android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="106dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
             android:layout_alignParentTop="true"
-            android:src="@drawable/car"/>
+            android:src="@drawable/def_image"/>
 
         <ImageView
             android:id="@+id/btn_chosen"
@@ -39,7 +41,7 @@
             android:layout_below="@id/img"
             android:layout_toStartOf="@+id/btn_chosen"
             android:layout_marginTop="6dp"
-            android:text="450 000 с"
+            android:maxLines="1"
             android:textSize="17sp"
             android:textColor="@color/colorPrimary"
             android:layout_marginStart="5dp"
@@ -53,7 +55,7 @@
             android:layout_below="@id/price"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="6dp"
-            android:text="Toyota Camry 555"
+            android:maxLines="1"
             android:textSize="12sp"
             android:textColor="@color/black"
             android:layout_marginStart="5dp"
@@ -67,8 +69,8 @@
             android:layout_below="@id/name"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
-            android:text="Сатылат тез арада. 2011 жыл"
             android:textSize="10sp"
+            android:maxLines="1"
             android:textColor="@color/textColorDesc"
             android:layout_marginStart="5dp"
             android:fontFamily="@font/nunito"

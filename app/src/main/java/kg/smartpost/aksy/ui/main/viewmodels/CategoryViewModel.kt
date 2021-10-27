@@ -18,10 +18,8 @@ class CategoryViewModel(
         this.categoryListener = categoryListener
     }
 
-    fun getFloor(modelSendKey: ModelSendKey) = viewModelScope.launch {
-
-        when (val response =
-            categoryRepository.getCategories(modelSendKey)) {
+    fun getCategories(modelSendKey: String) = viewModelScope.launch {
+        when (val response = categoryRepository.getCategories(modelSendKey)) {
             is NetworkResponse.Success -> {
                 categoryListener?.getCategorySuccess(response.value)
             }

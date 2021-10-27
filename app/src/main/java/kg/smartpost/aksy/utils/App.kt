@@ -4,6 +4,8 @@ import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kg.smartpost.aksy.data.network.ApiService
 import kg.smartpost.aksy.data.network.category.repo.CategoryRepository
+import kg.smartpost.aksy.data.network.items.repo.ItemsRepository
+import kg.smartpost.aksy.ui.items.viewmodels.ItemsViewModelFactory
 import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -25,6 +27,9 @@ class App : Application(), KodeinAware {
 
         bind<CategoryRepository>() with singleton { CategoryRepository(instance()) }
         bind() from provider { CategoryViewModelFactory(instance()) }
+
+        bind<ItemsRepository>() with singleton { ItemsRepository(instance()) }
+        bind() from provider { ItemsViewModelFactory(instance()) }
 
     }
 

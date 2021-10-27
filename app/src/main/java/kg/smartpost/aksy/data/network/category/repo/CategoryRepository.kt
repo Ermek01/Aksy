@@ -7,7 +7,7 @@ import kg.smartpost.aksy.utils.BaseRepository
 
 class CategoryRepository(private val apiService: ApiService) : BaseRepository() {
 
-    suspend fun getCategories(modelSendKey: ModelSendKey) = safeApiCall {
+    suspend fun getCategories(modelSendKey: String) = safeApiCall {
         apiService.getCategories(modelSendKey)
     }
 
