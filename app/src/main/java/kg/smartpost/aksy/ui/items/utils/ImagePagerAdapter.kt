@@ -1,20 +1,27 @@
 package kg.smartpost.aksy.ui.items.utils
 
+import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
+import com.bumptech.glide.Glide
 import kg.smartpost.aksy.R
 
-class ImagePagerAdapter(private val listener : ImageClickListener): PagerAdapter() {
+class ImagePagerAdapter(
+    private val listener: ImageClickListener,
+    private val photos: List<String>,
+    private val requireContext: Context
+): PagerAdapter() {
 
     private val drawables =
         intArrayOf(R.drawable.car_detail, R.drawable.car_detail, R.drawable.car_detail)
 
     override fun getCount(): Int {
-        return 3
+        return photos.size
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -29,7 +36,10 @@ class ImagePagerAdapter(private val listener : ImageClickListener): PagerAdapter
         val view =
             LayoutInflater.from(container.context).inflate(R.layout.page_images, container, false)
         val imageView = view.findViewById<ImageView>(R.id.img_shop_page)
-        imageView.setImageResource(drawables[position])
+        if (!photos.isNullOrEmpty())
+            Glide.with(requireContext).load(photos[position])
+                .error(ContextCompat.getDrawable(requireContext, R.drawable.def_image))
+                .into(imageView)
         container.addView(view)
 
         view.setOnClickListener {
@@ -44,3 +54,4 @@ class ImagePagerAdapter(private val listener : ImageClickListener): PagerAdapter
     }
 
 }
+

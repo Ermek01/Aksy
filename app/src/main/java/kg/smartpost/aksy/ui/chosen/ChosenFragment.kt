@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import kg.smartpost.aksy.databinding.FragmentChosenBinding
 import kg.smartpost.aksy.ui.chosen.utils.ChosenAdapter
 
@@ -30,6 +32,10 @@ class ChosenFragment : Fragment() {
         adapter = ChosenAdapter()
         binding.chosen.adapter = adapter
         adapter.notifyDataSetChanged()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            requireFragmentManager().popBackStack()
+        }
 
     }
 

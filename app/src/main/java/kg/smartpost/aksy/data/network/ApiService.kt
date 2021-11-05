@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import kg.smartpost.aksy.data.network.category.model.ModelCategory
 import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.category.model.ModelSendKey
+import kg.smartpost.aksy.data.network.items.model.ModelItemDetail
 import kg.smartpost.aksy.data.network.items.model.ModelItems
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -26,7 +27,15 @@ interface ApiService {
     @POST("api/blog/list")
     suspend fun getItems(
         @Field ("secret_key") secret_key: String,
+        @Field ("page") page: Int
     ): ModelItems
+
+    @FormUrlEncoded
+    @POST("api/blog/show")
+    suspend fun getItemsById(
+        @Field ("secret_key") secret_key: String,
+        @Field ("blogId") blogId: Int,
+    ): ModelItemDetail
 
     companion object {
 

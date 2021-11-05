@@ -7,7 +7,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import kg.smartpost.aksy.R
-import kg.smartpost.aksy.databinding.ActivityMainBinding
 import kg.smartpost.aksy.databinding.ActivitySearchBinding
 import kg.smartpost.aksy.ui.items.utils.SearchAdapter
 

@@ -7,8 +7,12 @@ import kg.smartpost.aksy.utils.BaseRepository
 
 class ItemsRepository(private val apiService: ApiService) : BaseRepository() {
 
-    suspend fun getItems(modelSendKey: String) = safeApiCall {
-        apiService.getItems(modelSendKey)
+    suspend fun getItems(modelSendKey: String, page: Int) = safeApiCall {
+        apiService.getItems(modelSendKey, page)
+    }
+
+    suspend fun getItemById(modelSendKey: String, blogId: Int) = safeApiCall {
+        apiService.getItemsById(modelSendKey, blogId)
     }
 
 }

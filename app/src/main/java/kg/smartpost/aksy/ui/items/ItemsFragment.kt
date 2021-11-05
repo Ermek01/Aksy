@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import kg.smartpost.aksy.R
 import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.items.model.ModelItems
@@ -21,6 +23,8 @@ import kg.smartpost.aksy.ui.main.utils.CategoryAdapter
 import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModel
 import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModelFactory
 import kg.smartpost.aksy.utils.SECRET_KEY
+import kg.smartpost.aksy.utils.hide
+import kg.smartpost.aksy.utils.show
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -44,12 +48,13 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     // onDestroyView.
     private val binding get() = _binding!!
     private var title: String? = null
+    private var page: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         title = arguments?.getString("title")
         _binding = FragmentAnnouncementBinding.inflate(inflater, container, false)
         return binding.root
@@ -63,20 +68,27 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
 
         viewModel.setItemsListener(this)
 
+        binding.prBar.show()
+        viewModel.getItems(SECRET_KEY, page)
+
+        binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+            if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
+                binding.prBar.show()
+                page++
+                viewModel.getItems(SECRET_KEY, page)
+            }
+        }
+
+
         if (arguments != null) {
             when (title) {
-                "all" -> {
-                    viewModel.getItems(SECRET_KEY)
+                "title" -> {
                 }
             }
         }
         else {
-            adapter = AnnouncementAdapter(this)
-            binding.announcement.adapter = adapter
-            adapter.notifyDataSetChanged()
+
         }
-
-
 
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -89,20 +101,19 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     }
 
     override fun onAnnouncementClick(position: Int, id: Int) {
-        val fragment = ItemsDetailFragment()
-        fragmentManager?.commit {
-            replace(R.id.nav_host_fragment_content_main, fragment)
-            addToBackStack(null)
-            setReorderingAllowed(true)
-        }
+        val bundle = Bundle()
+        bundle.putInt("id", items[position].id)
+        findNavController().navigate(R.id.itemsDetailFragment, bundle)
     }
 
     override fun getItemsSuccess(modelItems: ModelItems) {
-        items.clear()
+        if (page == 1)
+            items.clear()
         items.addAll(modelItems.items)
         adapter = AnnouncementAdapter(this)
         binding.announcement.adapter = adapter
         adapter.submitList(items)
+        binding.prBar.hide()
     }
 
     override fun getItemsFailure(code: Int?) {

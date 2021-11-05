@@ -7,19 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:id="@+id/txt_app_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/app_name"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/nunito"
-        android:textFontWeight="600"
-        android:textSize="14sp"
-        />
-
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
@@ -64,14 +51,17 @@
 
 
 
-    <RelativeLayout
+    <fragment
         android:id="@+id/nav_host_fragment_content_main"
         android:layout_width="match_parent"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_below="@id/relative"
         android:paddingTop="12dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/mobile_navigation"
         />
 </RelativeLayout>

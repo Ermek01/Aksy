@@ -4,17 +4,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
+import com.bumptech.glide.Glide
 import kg.smartpost.aksy.R
+import kg.smartpost.aksy.ui.items.ImageZoomActivity
+import java.util.ArrayList
 
-class ImagePagerAdapterZoom(): PagerAdapter() {
+class ImagePagerAdapterZoom(
+    private val list: ArrayList<String>?,
+    private val imageZoomActivity: ImageZoomActivity
+) : PagerAdapter() {
 
-    private val drawables =
-        intArrayOf(R.drawable.img_car_zoom, R.drawable.img_car_zoom, R.drawable.img_car_zoom)
+
 
     override fun getCount(): Int {
-        return 3
+        return list!!.size
     }
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -29,7 +34,9 @@ class ImagePagerAdapterZoom(): PagerAdapter() {
         val view =
             LayoutInflater.from(container.context).inflate(R.layout.page_images, container, false)
         val imageView = view.findViewById<ImageView>(R.id.img_shop_page)
-        imageView.setImageResource(drawables[position])
+        if (!list.isNullOrEmpty())
+            Glide.with(imageZoomActivity).load(list[position])
+                .into(imageView)
         container.addView(view)
         return view
     }

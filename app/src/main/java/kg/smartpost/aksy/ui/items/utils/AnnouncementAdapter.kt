@@ -56,6 +56,10 @@ class AnnouncementAdapter(private val announcementClickListener: AnnouncementCli
                 }
             }
 
+            binding.root.setOnClickListener {
+                announcementClickListener.onAnnouncementClick(position, current.id)
+            }
+
         }
 
     }

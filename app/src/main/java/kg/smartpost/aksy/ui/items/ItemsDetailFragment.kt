@@ -10,22 +10,37 @@ import android.view.animation.AnimationUtils
 import android.view.animation.LinearInterpolator
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import kg.smartpost.aksy.R
+import kg.smartpost.aksy.data.network.items.model.ModelItemDetail
 import kg.smartpost.aksy.databinding.FragmentItemsDetailBinding
-import kg.smartpost.aksy.ui.items.utils.ImagePagerAdapter
-import kg.smartpost.aksy.ui.items.utils.ShareBottomDialog
-import kg.smartpost.aksy.ui.items.utils.SimilarAdapter
-import kg.smartpost.aksy.ui.items.utils.WriteBottomDialog
+import kg.smartpost.aksy.ui.items.utils.*
+import kg.smartpost.aksy.ui.items.viewmodels.ItemsViewModel
+import kg.smartpost.aksy.ui.items.viewmodels.ItemsViewModelFactory
+import kg.smartpost.aksy.utils.SECRET_KEY
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.closestKodein
+import org.kodein.di.generic.instance
 
 
-class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener {
+class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener, KodeinAware, ItemsByIdListener {
+
+    override val kodein: Kodein by closestKodein()
 
     private lateinit var adapter: SimilarAdapter
 
     private var _binding: FragmentItemsDetailBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var viewModel: ItemsViewModel
+    private val viewModelFactory: ItemsViewModelFactory by instance()
+
+    val items = arrayListOf<String>()
+
     private var isAnimate: Boolean = false
+
+    var id: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +57,19 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsViewModel::class.java)
+
+        if (arguments != null) {
+            id = arguments?.getInt("id")
+        }
+
+        viewModel.setItemsByIdListener(this)
+
+        viewModel.getItemsById(SECRET_KEY, id!!)
+
         adapter = SimilarAdapter()
         binding.announcement.adapter = adapter
         adapter.notifyDataSetChanged()
-
-        val adapter = ImagePagerAdapter(this)
-        binding.viewPager.adapter = adapter
-        binding.tabLayout.setupWithViewPager(binding.viewPager, true)
 
         binding.btnMore.setOnClickListener {
 
@@ -101,8 +122,22 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener {
 
     override fun onImageClick(position: Int) {
         val intent = Intent(requireActivity(), ImageZoomActivity::class.java)
+        intent.putStringArrayListExtra("list", items)
         startActivity(intent)
         //Animatoo.animateZoom(requireActivity())
+    }
+
+    override fun getItemsSuccess(response: ModelItemDetail) {
+        items.clear()
+        items.addAll(response.item.photos)
+        val adapter = ImagePagerAdapter(this, response.item.photos, requireContext())
+        binding.viewPager.adapter = adapter
+        binding.tabLayout.setupWithViewPager(binding.viewPager, true)
+        binding.txtDesc.text = response.item.text
+    }
+
+    override fun getItemsFailure(code: Int?) {
+
     }
 
 }
