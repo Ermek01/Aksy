@@ -137,10 +137,11 @@ class MainActivity : AppCompatActivity(), CategoryAdapter.CategoryClickListener,
     }
 
     override fun onCategoryClick(position: Int) {
-        val bundle = Bundle()
-        bundle.putString("title", "title")
-        val itemsFragment = ItemsFragment()
-        itemsFragment.arguments = bundle
+//        val bundle = Bundle()
+//        bundle.putInt("id", categories[position].id)
+//        val itemsFragment = ItemsFragment()
+//        itemsFragment.arguments = bundle
+        ItemsFragment.newInstance(categories[position].id)
     }
 
     override fun getCategorySuccess(response: ModelCategory) {

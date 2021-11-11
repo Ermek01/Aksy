@@ -1,6 +1,7 @@
 package kg.smartpost.aksy.ui.items
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener, Ko
     private val viewModelFactory: ItemsViewModelFactory by instance()
 
     val items = arrayListOf<String>()
+    val phones = arrayListOf<String>()
 
     private var isAnimate: Boolean = false
 
@@ -101,13 +103,19 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener, Ko
             }
         }
 
+        binding.btnCall.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL);
+            intent.data = Uri.parse("tel:${phones[0]}")
+            startActivity(intent)
+        }
+
         binding.btnShare.setOnClickListener {
             val dialog = ShareBottomDialog()
             dialog.show(requireFragmentManager(), "chooseIn")
         }
 
         binding.btnWrite.setOnClickListener {
-            val dialog = WriteBottomDialog()
+            val dialog = WriteBottomDialog(phones)
             dialog.show(requireFragmentManager(), "chooseIn")
         }
 
@@ -130,6 +138,7 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener, Ko
     override fun getItemsSuccess(response: ModelItemDetail) {
         items.clear()
         items.addAll(response.item.photos)
+        phones.addAll(response.item.phone)
         val adapter = ImagePagerAdapter(this, response.item.photos, requireContext())
         binding.viewPager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.viewPager, true)

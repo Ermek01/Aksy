@@ -9,6 +9,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import kg.smartpost.aksy.R
 import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
@@ -47,15 +48,31 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private var title: String? = null
+    private var id: Int? = null
     private var page: Int = 1
+
+    companion object {
+
+        fun newInstance(id: Int) : ItemsFragment {
+
+            val fragment = ItemsFragment()
+
+            val bundle = Bundle().apply {
+                putInt("id", id)
+            }
+
+            fragment.arguments = bundle
+            return fragment
+        }
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        title = arguments?.getString("title")
+        id = arguments?.getInt("id")
         _binding = FragmentAnnouncementBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -63,6 +80,15 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (id != null) {
+
+
+            val navOptions = NavOptions.Builder().setPopUpTo(R.id.itemsFragment, true).build()
+            findNavController().navigate(R.id.itemsFragment, null, navOptions)
+
+        }
+
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsViewModel::class.java)
 
@@ -80,15 +106,7 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
         }
 
 
-        if (arguments != null) {
-            when (title) {
-                "title" -> {
-                }
-            }
-        }
-        else {
 
-        }
 
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
