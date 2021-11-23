@@ -7,35 +7,59 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kg.smartpost.aksy.R
+import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
+import kg.smartpost.aksy.databinding.ItemSearchBinding
+import kg.smartpost.aksy.databinding.RowCategoriesBinding
 
-class SearchAdapter(private val values: MutableList<String>) :RecyclerView.Adapter<SearchAdapter.CategoryItemViewHolder>() {
+class SearchAdapter :
+    ListAdapter<ModelCategoryItem, SearchAdapter.ViewHolderCat>(DIFF) {
 
-    private lateinit var context: Context
+    fun getItemAtPos(position: Int): ModelCategoryItem {
+        return getItem(position)
+    }
 
-    inner class CategoryItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(position: Int) {
+    private var _binding: ItemSearchBinding? = null
 
-            itemView.findViewById<TextView>(R.id.txt_item).text = values[position]
+    inner class ViewHolderCat(private val binding: ItemSearchBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun onBind(position: Int) {
+            val current = getItemAtPos(position)
+
+            binding.txtItem.text = current.title
 
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryItemViewHolder {
-        context = parent.context
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_search, parent, false)
-        return CategoryItemViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCat {
+        _binding = ItemSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolderCat(_binding!!)
     }
 
-    override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
-        holder.bind(position)
+    override fun onBindViewHolder(holder: ViewHolderCat, position: Int) {
+        holder.onBind(position)
     }
 
-    override fun getItemCount(): Int {
-        return values.size
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<ModelCategoryItem>() {
+            override fun areItemsTheSame(
+                oldItem: ModelCategoryItem,
+                newItem: ModelCategoryItem
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(
+                oldItem: ModelCategoryItem,
+                newItem: ModelCategoryItem
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
     }
-
-
 }

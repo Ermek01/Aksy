@@ -85,6 +85,7 @@
                         android:layout_marginStart="16dp"/>
 
                     <EditText
+                        android:id="@+id/et_search"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/img"
@@ -381,6 +382,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/btn_result"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_alignParentBottom="true"
@@ -403,9 +405,10 @@
                 />
 
             <TextView
+                android:id="@+id/count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(3650)"
+                android:text="(0)"
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:layout_marginStart="10dp"

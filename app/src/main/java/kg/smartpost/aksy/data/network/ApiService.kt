@@ -6,6 +6,7 @@ import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.category.model.ModelSendKey
 import kg.smartpost.aksy.data.network.items.model.ModelItemDetail
 import kg.smartpost.aksy.data.network.items.model.ModelItems
+import kg.smartpost.aksy.data.network.items.model.ModelSearchItems
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,7 +28,7 @@ interface ApiService {
     @POST("api/blog/list")
     suspend fun getItems(
         @Field ("secret_key") secret_key: String,
-        @Field ("page") page: Int
+        @Field ("page") page: Int,
     ): ModelItems
 
     @FormUrlEncoded
@@ -36,6 +37,13 @@ interface ApiService {
         @Field ("secret_key") secret_key: String,
         @Field ("blogId") blogId: Int,
     ): ModelItemDetail
+
+    @FormUrlEncoded
+    @POST("api/blog/search")
+    suspend fun searchItems(
+        @Field ("secret_key") secret_key: String,
+        @Field ("search") search: String?,
+    ): ModelSearchItems
 
     companion object {
 

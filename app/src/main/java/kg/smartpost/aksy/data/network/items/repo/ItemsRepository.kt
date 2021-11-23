@@ -15,4 +15,8 @@ class ItemsRepository(private val apiService: ApiService) : BaseRepository() {
         apiService.getItemsById(modelSendKey, blogId)
     }
 
+    suspend fun searchItems(secret_key: String, search: String?) = safeApiCall {
+        apiService.searchItems(secret_key, search)
+    }
+
 }

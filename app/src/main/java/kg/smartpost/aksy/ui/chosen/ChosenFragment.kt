@@ -33,8 +33,8 @@ class ChosenFragment : Fragment() {
         binding.chosen.adapter = adapter
         adapter.notifyDataSetChanged()
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            requireFragmentManager().popBackStack()
+        binding.imgBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
     }

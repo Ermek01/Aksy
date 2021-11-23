@@ -1,5 +1,7 @@
 package kg.smartpost.aksy.ui.items
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +11,13 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavArgs
+import androidx.navigation.NavGraph
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import kg.smartpost.aksy.R
+import kg.smartpost.aksy.data.network.category.model.ModelCategory
 import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.data.network.items.model.ModelItems
 import kg.smartpost.aksy.databinding.FragmentAnnouncementBinding
@@ -21,6 +27,7 @@ import kg.smartpost.aksy.ui.items.utils.ItemsListener
 import kg.smartpost.aksy.ui.items.viewmodels.ItemsViewModel
 import kg.smartpost.aksy.ui.items.viewmodels.ItemsViewModelFactory
 import kg.smartpost.aksy.ui.main.utils.CategoryAdapter
+import kg.smartpost.aksy.ui.main.utils.CategoryListener
 import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModel
 import kg.smartpost.aksy.ui.main.viewmodels.CategoryViewModelFactory
 import kg.smartpost.aksy.utils.SECRET_KEY
@@ -31,12 +38,15 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener, KodeinAware, ItemsListener {
+class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener, KodeinAware, ItemsListener, CategoryListener, CategoryAdapter.CategoryClickListener {
 
     override val kodein: Kodein by closestKodein()
 
     private lateinit var viewModel: ItemsViewModel
     private val viewModelFactory: ItemsViewModelFactory by instance()
+
+    private lateinit var categoryViewModel: CategoryViewModel
+    private val categoryViewModelFactory: CategoryViewModelFactory by instance()
 
     private var items = mutableListOf<ModelItems.Item>()
 
@@ -44,6 +54,20 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     private var _binding: FragmentAnnouncementBinding? = null
 
     private lateinit var adapter: AnnouncementAdapter
+    private lateinit var categoryAdaper: CategoryAdapter
+
+    private var categories = mutableListOf<ModelCategoryItem>()
+
+    var icons = mutableListOf(
+        R.drawable.ic_all_category,
+        R.drawable.ic_home,
+        R.drawable.ic_car_category,
+        R.drawable.ic_animals_category,
+        R.drawable.ic_sell,
+        R.drawable.ic_work,
+        R.drawable.ic_electronics,
+        R.drawable.ic_route,
+    )
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -51,28 +75,11 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     private var id: Int? = null
     private var page: Int = 1
 
-    companion object {
-
-        fun newInstance(id: Int) : ItemsFragment {
-
-            val fragment = ItemsFragment()
-
-            val bundle = Bundle().apply {
-                putInt("id", id)
-            }
-
-            fragment.arguments = bundle
-            return fragment
-        }
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        id = arguments?.getInt("id")
         _binding = FragmentAnnouncementBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -81,14 +88,11 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (id != null) {
+        categoryViewModel = ViewModelProvider(this, categoryViewModelFactory).get(CategoryViewModel::class.java)
 
+        categoryViewModel.setFloorListener(this)
 
-            val navOptions = NavOptions.Builder().setPopUpTo(R.id.itemsFragment, true).build()
-            findNavController().navigate(R.id.itemsFragment, null, navOptions)
-
-        }
-
+        categoryViewModel.getCategories(SECRET_KEY)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsViewModel::class.java)
 
@@ -136,5 +140,41 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
 
     override fun getItemsFailure(code: Int?) {
         Toast.makeText(requireContext(), "$code", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun getCategorySuccess(response: ModelCategory) {
+        categories.clear()
+        categories.addAll(response)
+        categoryAdaper = CategoryAdapter(this, icons)
+        binding.categories.adapter = categoryAdaper
+        categoryAdaper.submitList(response)
+    }
+
+    override fun getCategoryFailure(code: Int?) {
+        Toast.makeText(requireContext(), "$code", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCategoryClick(position: Int) {
+        binding.prBar.show()
+        viewModel.getItems(SECRET_KEY, page)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 123) {
+            when(resultCode) {
+
+                RESULT_OK -> {
+
+                    val search = data?.getStringExtra("search")
+                    val bundle = Bundle()
+                    bundle.putString("search", search)
+                    findNavController().navigate(R.id.searchFragment, bundle)
+                }
+
+            }
+        }
+
     }
 }
