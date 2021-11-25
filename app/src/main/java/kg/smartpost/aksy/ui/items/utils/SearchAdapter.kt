@@ -16,8 +16,11 @@ import kg.smartpost.aksy.data.network.category.model.ModelCategoryItem
 import kg.smartpost.aksy.databinding.ItemSearchBinding
 import kg.smartpost.aksy.databinding.RowCategoriesBinding
 
-class SearchAdapter :
+class SearchAdapter(private val listener: CheckBoxListener) :
     ListAdapter<ModelCategoryItem, SearchAdapter.ViewHolderCat>(DIFF) {
+
+
+    private var isChecked : Boolean = false
 
     fun getItemAtPos(position: Int): ModelCategoryItem {
         return getItem(position)
@@ -31,6 +34,14 @@ class SearchAdapter :
             val current = getItemAtPos(position)
 
             binding.txtItem.text = current.title
+
+            binding.checkbox.setOnCheckedChangeListener { compoundButton, isChecked ->
+                listener.onCheckBoxClick(position, isChecked)
+            }
+
+            if (isChecked) {
+                binding.checkbox.isChecked = false
+            }
 
         }
 
@@ -62,4 +73,14 @@ class SearchAdapter :
             }
         }
     }
+
+    interface CheckBoxListener {
+        fun onCheckBoxClick(position: Int, isChecked: Boolean)
+    }
+
+    fun checkBoxClear(isChecked: Boolean) {
+        this.isChecked = isChecked
+    }
+
+
 }

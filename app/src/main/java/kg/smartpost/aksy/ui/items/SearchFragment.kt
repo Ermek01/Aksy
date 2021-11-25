@@ -1,5 +1,7 @@
 package kg.smartpost.aksy.ui.items
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -60,9 +62,7 @@ class SearchFragment : Fragment(), KodeinAware, SearchListener, SearchAnnounceme
         super.onViewCreated(view, savedInstanceState)
 
         if (arguments != null) {
-
             text = arguments?.getString("search")
-
         }
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(ItemsViewModel::class.java)
@@ -70,13 +70,13 @@ class SearchFragment : Fragment(), KodeinAware, SearchListener, SearchAnnounceme
         viewModel.setSearchListener(this)
 
         binding.prBar.show()
-        viewModel.searchItems(SECRET_KEY, text)
+        viewModel.searchItems(SECRET_KEY, text, page)
 
         binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
                 binding.prBar.show()
                 page++
-                viewModel.searchItems(SECRET_KEY, text)
+                viewModel.searchItems(SECRET_KEY, text, page)
             }
         }
 
@@ -87,11 +87,13 @@ class SearchFragment : Fragment(), KodeinAware, SearchListener, SearchAnnounceme
     }
 
     override fun searchItemsSuccess(modelItems: ModelSearchItems) {
-        items.clear()
+        if (page == 1) {
+            items.clear()
+        }
         items.addAll(modelItems.items)
         adapter = SearchAnnouncementAdapter(this)
         binding.searchList.adapter = adapter
-        adapter.submitList(modelItems.items)
+        adapter.submitList(items)
         binding.prBar.hide()
     }
 
@@ -103,5 +105,33 @@ class SearchFragment : Fragment(), KodeinAware, SearchListener, SearchAnnounceme
         val bundle = Bundle()
         bundle.putInt("id", items[position].id)
         findNavController().navigate(R.id.itemsDetailFragment, bundle)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 123) {
+            when(resultCode) {
+
+                Activity.RESULT_OK -> {
+
+                    val search = data?.getStringExtra("search")
+                    page = 1
+                    binding.prBar.show()
+                    viewModel.searchItems(SECRET_KEY, search, page)
+
+                    binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
+                        if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
+                            binding.prBar.show()
+                            page++
+                            viewModel.searchItems(SECRET_KEY, search, page)
+                        }
+                    }
+
+                }
+
+            }
+        }
+
     }
 }

@@ -152,46 +152,18 @@
                     android:layout_marginEnd="16dp"
                     />
 
-                <RelativeLayout
-                    android:id="@+id/btn_more"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/txt_price"
-                    android:layout_marginTop="27dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="21dp"
-                    android:layout_marginBottom="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Толук маалымат"
-                        android:fontFamily="@font/nunito"
-                        android:textSize="22sp"
-                        android:textColor="@color/textColorDesc"
-                        android:textFontWeight="700"
-                        />
-
-                    <ImageView
-                        android:id="@+id/more"
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
-                        android:layout_alignParentEnd="true"
-                        android:src="@drawable/ic_more_bottom"/>
-
-                </RelativeLayout>
-
                 <TextView
                     android:id="@+id/txt_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate eu, ac pulvinar et ultrices. Et aliquam leo ultricies tortor tristique tortor tempus nulla. Egestas justo nisl sollicitudin mauris a rhoncus velit velit. Ipsum sit massa pellentesque mattis nulla nullam eu. Eget ut egestas scelerisque dolor, massa aliquam adipiscing nulla id. Et pellentesque dapibus et erat a proin commodo integer. Leo massa tellus morbi sed viverra diam diam. Nunc, viverra elementum erat commodo mauris, id ultrices eu est. Massa quam nec ac eros dolor orci massa arcu nunc. Lectus orci sed tempor eros mauris, sit tortor. Enim et nisl turpis aliquet tristique habitant adipiscing. Ut lacus viverra nec posuere in in enim tempus vulputate. Eleifend at urna sagittis scelerisque ut dictum a. Ornare "
-                    android:layout_below="@id/btn_more"
+                    android:layout_below="@id/txt_price"
                     android:textColor="@color/black"
                     android:fontFamily="@font/nunito"
-                    android:visibility="gone"
+                    android:visibility="visible"
+                    android:textSize="18sp"
+                    android:layout_marginTop="20dp"
                     android:textFontWeight="400"
                     android:layout_marginBottom="20dp"/>
 

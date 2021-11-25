@@ -74,6 +74,7 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
     private val binding get() = _binding!!
     private var id: Int? = null
     private var page: Int = 1
+    private var categoryId: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -99,13 +100,13 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
         viewModel.setItemsListener(this)
 
         binding.prBar.show()
-        viewModel.getItems(SECRET_KEY, page)
+        viewModel.getItems(SECRET_KEY, page, categoryId)
 
         binding.nestedScrollView.setOnScrollChangeListener { v: NestedScrollView?, _: Int, scrollY: Int, _: Int, _: Int ->
             if (scrollY == v!!.getChildAt(0).measuredHeight - v.measuredHeight) {
                 binding.prBar.show()
                 page++
-                viewModel.getItems(SECRET_KEY, page)
+                viewModel.getItems(SECRET_KEY, page, categoryId)
             }
         }
 
@@ -156,7 +157,9 @@ class ItemsFragment : Fragment(), AnnouncementAdapter.AnnouncementClickListener,
 
     override fun onCategoryClick(position: Int) {
         binding.prBar.show()
-        viewModel.getItems(SECRET_KEY, page)
+        categoryId = categories[position].id
+        page = 1
+        viewModel.getItems(SECRET_KEY, page, categoryId)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

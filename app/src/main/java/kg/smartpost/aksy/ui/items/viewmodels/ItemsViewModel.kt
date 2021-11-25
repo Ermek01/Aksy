@@ -32,8 +32,8 @@ class ItemsViewModel(
         this.searchListener = searchListener
     }
 
-    fun getItems(modelSendKey: String, page: Int) = viewModelScope.launch {
-        when (val response = itemsRepository.getItems(modelSendKey, page)) {
+    fun getItems(modelSendKey: String, page: Int, categoryId: Int) = viewModelScope.launch {
+        when (val response = itemsRepository.getItems(modelSendKey, page, categoryId)) {
             is NetworkResponse.Success -> {
                 itemsListener?.getItemsSuccess(response.value)
             }
@@ -54,8 +54,19 @@ class ItemsViewModel(
         }
     }
 
-    fun searchItems(secret_key: String, search: String?) = viewModelScope.launch {
-        when (val response = itemsRepository.searchItems(secret_key, search)) {
+    fun searchItems(secret_key: String, search: String?, page: Int) = viewModelScope.launch {
+        when (val response = itemsRepository.searchItems(secret_key, search, page)) {
+            is NetworkResponse.Success -> {
+                searchListener?.searchItemsSuccess(response.value)
+            }
+            is NetworkResponse.Failure -> {
+                searchListener?.searchItemsFailure(response.errorCode)
+            }
+        }
+    }
+
+    fun searchItem(secret_key: String, search: String?) = viewModelScope.launch {
+        when (val response = itemsRepository.searchItem(secret_key, search)) {
             is NetworkResponse.Success -> {
                 searchListener?.searchItemsSuccess(response.value)
             }

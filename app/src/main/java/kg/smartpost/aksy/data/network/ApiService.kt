@@ -29,6 +29,7 @@ interface ApiService {
     suspend fun getItems(
         @Field ("secret_key") secret_key: String,
         @Field ("page") page: Int,
+        @Field ("categoryId") categoryId: Int,
     ): ModelItems
 
     @FormUrlEncoded
@@ -41,6 +42,14 @@ interface ApiService {
     @FormUrlEncoded
     @POST("api/blog/search")
     suspend fun searchItems(
+        @Field ("secret_key") secret_key: String,
+        @Field ("search") search: String?,
+        @Field ("page") page: Int,
+    ): ModelSearchItems
+
+    @FormUrlEncoded
+    @POST("api/blog/search")
+    suspend fun searchItem(
         @Field ("secret_key") secret_key: String,
         @Field ("search") search: String?,
     ): ModelSearchItems

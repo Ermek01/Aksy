@@ -33,7 +33,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, SearchListener {
+class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, SearchListener, SearchAdapter.CheckBoxListener, AddressAdapter.CheckBoxListener {
 
     override val kodein: Kodein by closestKodein()
 
@@ -64,6 +64,8 @@ class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, Searc
         "Сом", "АКШ Доллар"
     )
 
+    private var isChecked: Boolean = false
+
     private lateinit var binding: ActivitySearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,15 +81,15 @@ class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, Searc
 
         categoryViewModel.getCategories(SECRET_KEY)
 
-        val addressAdapter = AddressAdapter(address)
+        val addressAdapter = AddressAdapter(address, this)
         binding.selectAddress.adapter = addressAdapter
         addressAdapter.notifyDataSetChanged()
 
-        val sortAdapter = AddressAdapter(sort)
+        val sortAdapter = AddressAdapter(sort, this)
         binding.selectSort.adapter = sortAdapter
         sortAdapter.notifyDataSetChanged()
 
-        val currencyAdapter = AddressAdapter(currency)
+        val currencyAdapter = AddressAdapter(currency, this)
         binding.selectCurrency.adapter = currencyAdapter
         currencyAdapter.notifyDataSetChanged()
 
@@ -151,13 +153,34 @@ class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, Searc
 
         }
 
+        binding.btnClose.setOnClickListener {
+            finish()
+        }
+
+        binding.btnClear.setOnClickListener {
+            binding.etSearch.setText("")
+            if (isChecked) {
+                searchAdapter.checkBoxClear(isChecked)
+                searchAdapter.notifyDataSetChanged()
+                addressAdapter.checkBoxClear(isChecked)
+                sortAdapter.checkBoxClear(isChecked)
+                currencyAdapter.checkBoxClear(isChecked)
+            }
+
+            if (binding.switchByPhoto.isChecked || binding.switchByVideo.isChecked) {
+                binding.switchByPhoto.isChecked = false
+                binding.switchByVideo.isChecked = false
+            }
+
+        }
+
         binding.etSearch.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                itemsViewModel.searchItems(SECRET_KEY, s.toString())
+                itemsViewModel.searchItem(SECRET_KEY, s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -179,7 +202,7 @@ class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, Searc
     override fun getCategorySuccess(response: ModelCategory) {
         categories.clear()
         categories.addAll(response)
-        searchAdapter = SearchAdapter()
+        searchAdapter = SearchAdapter(this)
         binding.selectCategory.adapter = searchAdapter
         searchAdapter.submitList(categories)
     }
@@ -202,5 +225,9 @@ class SearchActivity : AppCompatActivity(), KodeinAware, CategoryListener, Searc
 
     override fun searchItemsFailure(code: Int?) {
 
+    }
+
+    override fun onCheckBoxClick(position: Int, isChecked: Boolean) {
+        this.isChecked = isChecked
     }
 }

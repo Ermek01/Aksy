@@ -54,6 +54,10 @@ class MainActivity : AppCompatActivity() {
 //            binding.appBarMain.contentMain.imgBack.visibility = View.GONE
 //        }
 
+        binding.appBarMain.iconApp.setOnClickListener {
+            val host = NavHostFragment.create(R.navigation.mobile_navigation)
+            supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment_content_main,host).setPrimaryNavigationFragment(host).commit()
+        }
 
         binding.btnAbout.setOnClickListener {
             Handler().postDelayed({

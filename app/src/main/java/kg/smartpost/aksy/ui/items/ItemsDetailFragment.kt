@@ -73,20 +73,20 @@ class ItemsDetailFragment : Fragment(), ImagePagerAdapter.ImageClickListener, Ko
         binding.announcement.adapter = adapter
         adapter.notifyDataSetChanged()
 
-        binding.btnMore.setOnClickListener {
-
-            if (!isAnimate) {
-                binding.more.startAnimation(animate(isAnimate))
-                binding.txtDesc.visibility = View.VISIBLE
-                isAnimate = true
-            }
-            else {
-                binding.more.startAnimation(animate(isAnimate))
-                binding.txtDesc.visibility = View.GONE
-                isAnimate = false
-            }
-
-        }
+//        binding.btnMore.setOnClickListener {
+//
+//            if (!isAnimate) {
+//                binding.more.startAnimation(animate(isAnimate))
+//                binding.txtDesc.visibility = View.VISIBLE
+//                isAnimate = true
+//            }
+//            else {
+//                binding.more.startAnimation(animate(isAnimate))
+//                binding.txtDesc.visibility = View.GONE
+//                isAnimate = false
+//            }
+//
+//        }
 
         binding.imgChosen.setOnClickListener {
             if (binding.imgChosen.drawable.constantState == ContextCompat.getDrawable(
